@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "SPWM Module")(type "KiCad")(uri "${KIPRJMOD}/library/SPWM Module.kicad_sym")(options "")(descr ""))
+  (lib (name "SevenSegment Display")(type "KiCad")(uri "${KIPRJMOD}/library/SevenSegment Display.kicad_sym")(options "")(descr ""))
+)
