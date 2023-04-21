@@ -53,12 +53,12 @@ int main(void)
 		display_print_char('f', 0);
 		display_update();
 		
-		value++;
+		value += 5;
 		if(value > 999)
 		{
 			value = 0;
 		}
 		
-		delay_ms(50);
+		delay_ms(100);
 	}
 }
