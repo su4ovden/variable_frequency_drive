@@ -31,17 +31,3 @@ void delay_ms(uint32_t ms_value)
 		delay_us(1000);
 	}
 }
-
-/*
-void delay_ms(uint16_t ms_value)
-{
-	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-	SysTick->VAL &= ~SysTick_VAL_CURRENT_Msk;
-	SysTick->VAL = SystemCoreClock / (1000 - 1);
-
-	systick_count = ms_value;
-
-	while(systick_count);
-	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-}
-*/

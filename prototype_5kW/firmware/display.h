@@ -1,6 +1,6 @@
 #include <stm32f401xc.h>
 
-#define BIT_PERIOD 30 /* In microseconds */
+#define BIT_PERIOD 30 // In microseconds
 
 #define CLK_GPIO GPIOB
 #define CLK_PORT 6

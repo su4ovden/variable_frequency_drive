@@ -13,17 +13,18 @@ uint16_t keyboard_buttons = 0;
 
 int main(void)
 {
-	/* System initialization */
+
+	// System initialization
 	SystemInit();
 	
-	/* Main clock initialization */
+	// Main clock initialization
 	clock_init();
 
-	/* Update core clock after clock initialization */
+	// Update core clock after clock initialization
 	SystemCoreClockUpdate();
 	SysTick_Init();
 	
-	/* Debugging LED initialization */
+	// Debugging LED initialization
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
 	GPIOC->MODER |= GPIO_MODER_MODE13_0;
 	

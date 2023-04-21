@@ -2,16 +2,16 @@
 
 void keyboard_gpio_init(void)
 {
-	/* Enable clock for GPIOA and GPIOB */
+	// Enable clock for GPIOA and GPIOB
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 	
-	/* Enable pull-down for input keyboard pins */
+	// Enable pull-down for input keyboard pins
 	GPIOB->PUPDR |= GPIO_PUPDR_PUPD10_1 | GPIO_PUPDR_PUPD2_1 | GPIO_PUPDR_PUPD1_1 | GPIO_PUPDR_PUPD0_1;
 	
-	/* GPIO ports mode set */
-	GPIOA->MODER |= GPIO_MODER_MODE7_0 | GPIO_MODER_MODE6_0 | GPIO_MODER_MODE5_0 | GPIO_MODER_MODE4_0; /* Output */
-	GPIOB->MODER &= ~(GPIO_MODER_MODE10 | GPIO_MODER_MODE2 | GPIO_MODER_MODE1 | GPIO_MODER_MODE0); /* Input */
+	// GPIO ports mode set
+	GPIOA->MODER |= GPIO_MODER_MODE7_0 | GPIO_MODER_MODE6_0 | GPIO_MODER_MODE5_0 | GPIO_MODER_MODE4_0; // Output
+	GPIOB->MODER &= ~(GPIO_MODER_MODE10 | GPIO_MODER_MODE2 | GPIO_MODER_MODE1 | GPIO_MODER_MODE0); // Input
 }
 
 uint16_t keyboard_get_buttons(void)

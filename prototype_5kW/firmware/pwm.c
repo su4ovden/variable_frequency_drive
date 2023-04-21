@@ -44,70 +44,70 @@ void TIM1_UP_TIM10_IRQHandler(void)
 
     phase_accumulator += adc_value;
 
-    TIM1->SR = ~TIM_SR_UIF; /* clear interrupt flag */
+    TIM1->SR = ~TIM_SR_UIF; // clear interrupt flag
 }
 
 void pwm_timer_init(void)
 {
-    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN; /* Enable clock to Timer 1 */
+    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN; // Enable clock to Timer 1
 
-    TIM1->CR1 |= TIM_CR1_ARPE; /* ARR preload enable */
-    TIM1->CR1 |= TIM_CR1_CMS_0; /* Center-aligment mode */
+    TIM1->CR1 |= TIM_CR1_ARPE; // ARR preload enable
+    TIM1->CR1 |= TIM_CR1_CMS_0; // Center-aligment mode
 
-    TIM1->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1; /* CCR1 PWM mode 1 */
-    TIM1->CCMR1 |= TIM_CCMR1_OC1PE; /* CCR1 preload enable */
+    TIM1->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1; // CCR1 PWM mode 1
+    TIM1->CCMR1 |= TIM_CCMR1_OC1PE; // CCR1 preload enable
     
-    TIM1->CCMR1 |= TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1; /* CCR2 PWM mode 1 */
-    TIM1->CCMR1 |= TIM_CCMR1_OC2PE; /* CCR2 preload enable */
+    TIM1->CCMR1 |= TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1; // CCR2 PWM mode 1
+    TIM1->CCMR1 |= TIM_CCMR1_OC2PE; // CCR2 preload enable
     
-    TIM1->CCMR2 |= TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1; /* CCR3 PWM mode 1 */
-    TIM1->CCMR2 |= TIM_CCMR2_OC3PE; /* CCR3 preload enable */
+    TIM1->CCMR2 |= TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1; // CCR3 PWM mode 1
+    TIM1->CCMR2 |= TIM_CCMR2_OC3PE; // CCR3 preload enable
 
-    TIM1->CCER &= ~(TIM_CCER_CC1NP | TIM_CCER_CC1P); /* OC1 and OC1N Active high */
-    TIM1->CCER &= ~(TIM_CCER_CC2NP | TIM_CCER_CC2P); /* OC2 and OC2N Active high */
-    TIM1->CCER &= ~(TIM_CCER_CC3NP | TIM_CCER_CC3P); /* OC3 and OC3N Active high */
+    TIM1->CCER &= ~(TIM_CCER_CC1NP | TIM_CCER_CC1P); // OC1 and OC1N Active high
+    TIM1->CCER &= ~(TIM_CCER_CC2NP | TIM_CCER_CC2P); // OC2 and OC2N Active high
+    TIM1->CCER &= ~(TIM_CCER_CC3NP | TIM_CCER_CC3P); // OC3 and OC3N Active high
 
-    TIM1->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E; /* OC1, OC2, OC3 enable */
-    TIM1->CCER |= TIM_CCER_CC1NE | TIM_CCER_CC2NE | TIM_CCER_CC3NE; /* OC1N, OC2N, OC3N enable */
+    TIM1->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E; // OC1, OC2, OC3 enable
+    TIM1->CCER |= TIM_CCER_CC1NE | TIM_CCER_CC2NE | TIM_CCER_CC3NE; // OC1N, OC2N, OC3N enable
     
     TIM1->PSC = (uint16_t)500;
     TIM1->ARR = (uint16_t)359;
 
-    TIM1->EGR |= TIM_EGR_COMG; /* Update generation */
+    TIM1->EGR |= TIM_EGR_COMG; // Update generation
     
-    /* Reset compare registers */
+    // Reset compare registers
     TIM1->CCR1 = (uint8_t)0;
     TIM1->CCR2 = (uint8_t)0;
     TIM1->CCR3 = (uint8_t)0;
 
-    TIM1->EGR |= TIM_EGR_UG; /* Update generation */
+    TIM1->EGR |= TIM_EGR_UG; // Update generation
     
-    TIM1->DIER |= TIM_DIER_UIE; /* Enable update interrupt */
+    TIM1->DIER |= TIM_DIER_UIE; // Enable update interrupt
     NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 }
 
 void pwm_channels_init(void)
 {
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; /* Enable clock on PORTA */
-    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; /* Enable clock on PORTB */
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN; // Enable clock on PORTA
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; // Enable clock on PORTB
 
-    GPIOB->MODER |= GPIO_MODER_MODE15_1 | GPIO_MODER_MODE14_1 | GPIO_MODER_MODE13_1; /* Alternative function */
-    GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR15_1 | GPIO_OSPEEDER_OSPEEDR14_1 | GPIO_OSPEEDER_OSPEEDR13_1; /* Fast speed */
-    GPIOB->AFR[1] |= GPIO_AFRH_AFRH7_0 | GPIO_AFRH_AFRH6_0 | GPIO_AFRH_AFRH5_0; /* AF1 TIM1/TIM2 */
+    GPIOB->MODER |= GPIO_MODER_MODE15_1 | GPIO_MODER_MODE14_1 | GPIO_MODER_MODE13_1; // Alternative function
+    GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR15_1 | GPIO_OSPEEDER_OSPEEDR14_1 | GPIO_OSPEEDER_OSPEEDR13_1; // Fast speed
+    GPIOB->AFR[1] |= GPIO_AFRH_AFRH7_0 | GPIO_AFRH_AFRH6_0 | GPIO_AFRH_AFRH5_0; // AF1 TIM1/TIM2
 
-    GPIOA->MODER |= GPIO_MODER_MODE10_1 | GPIO_MODER_MODE9_1 | GPIO_MODER_MODE8_1; /* Alternative function */
-    GPIOA->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR10_1 | GPIO_OSPEEDER_OSPEEDR9_1 | GPIO_OSPEEDER_OSPEEDR8_1; /* Fast speed */
-    GPIOA->AFR[1] |= GPIO_AFRH_AFRH2_0 | GPIO_AFRH_AFRH1_0 | GPIO_AFRH_AFRH0_0; /* AF1 TIM1/TIM2 */
+    GPIOA->MODER |= GPIO_MODER_MODE10_1 | GPIO_MODER_MODE9_1 | GPIO_MODER_MODE8_1; // Alternative function
+    GPIOA->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR10_1 | GPIO_OSPEEDER_OSPEEDR9_1 | GPIO_OSPEEDER_OSPEEDR8_1; // Fast speed
+    GPIOA->AFR[1] |= GPIO_AFRH_AFRH2_0 | GPIO_AFRH_AFRH1_0 | GPIO_AFRH_AFRH0_0; // AF1 TIM1/TIM2
 }
 
 void pwm_enable()
 {
-    TIM1->BDTR |= TIM_BDTR_MOE; /* Main output enable */
-    TIM1->CR1 |= TIM_CR1_CEN; /* Enable timer */
+    TIM1->BDTR |= TIM_BDTR_MOE; // Main output enable
+    TIM1->CR1 |= TIM_CR1_CEN; // Enable timer
 }
 
 void pwm_disable()
 {
-    TIM1->BDTR &= ~TIM_BDTR_MOE; /* Main output enable */
-    TIM1->CR1 &= ~TIM_CR1_CEN; /* Disable timer */
+    TIM1->BDTR &= ~TIM_BDTR_MOE; // Main output enable
+    TIM1->CR1 &= ~TIM_CR1_CEN; // Disable timer
 }
