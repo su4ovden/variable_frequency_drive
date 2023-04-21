@@ -59,6 +59,6 @@ int main(void)
 			value = 0;
 		}
 		
-		delay_ms(100);
+		delay_ms(250);
 	}
 }
