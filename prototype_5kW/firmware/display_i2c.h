@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stm32f401xc.h>
 
 /* Warning! The area is under reconstruction! */

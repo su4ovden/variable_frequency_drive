@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stm32f401xc.h>
 
 #define BIT_PERIOD 30 /* In microseconds */
