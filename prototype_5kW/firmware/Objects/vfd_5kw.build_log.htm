@@ -17,23 +17,26 @@ Library Manager: ArmAr.exe V6.16
 Hex Converter:   FromElf.exe V6.16
 CPU DLL:         SARMCM3.DLL V5.36.0.0
 Dialog DLL:      DCM.DLL V1.17.3.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.5.0
+Target DLL:      UL2CM3.DLL V1.164.0.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-D:\Programming\uVision\variable_frequency_drive\variable_frequency_drive.uvprojx
-Project File Date:  08/24/2022
+D:\embedded\projects\variable_frequency_drive\prototype_5kW\firmware\vfd_5kw.uvprojx
+Project File Date:  04/21/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Main'
 assembling startup_stm32f401xc.s...
-compiling system_stm32f4xx.c...
 compiling main.c...
+compiling keyboard.c...
+compiling clock.c...
+compiling system_stm32f4xx.c...
+compiling delay.c...
+compiling display.c...
 linking...
-Program Size: Code=3874 RO-data=1174 RW-data=4 ZI-data=1656  
-FromELF: creating hex file...
-".\Objects\variable_frequency_drive.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=2988 RO-data=496 RW-data=4 ZI-data=1648  
+".\Objects\vfd_5kw.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,11 +63,11 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:2.6.3
       Source file:   MDK\Device\Source\ARM\STM32F401xx_OPT.s
-      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f401xc.s
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
       Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
