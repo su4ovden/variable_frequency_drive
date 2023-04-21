@@ -1,2 +1,4 @@
-Listings/
-Objects/
+**/Listings
+**/Objects
+*.htm
+*.html
