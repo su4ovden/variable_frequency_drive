@@ -1,12 +1,12 @@
 #include <stm32f401xc.h>
 
-#define BIT_PERIOD 30 // In microseconds
+#define BIT_PERIOD 7 // In microseconds
 
 #define CLK_GPIO GPIOB
-#define CLK_PORT 6
+#define CLK_PORT 8
 
 #define DIO_GPIO GPIOB
-#define DIO_PORT 7
+#define DIO_PORT 9
 
 uint8_t display_send_command(uint8_t command);
 uint8_t display_send_command_data(uint8_t command, uint8_t* data, uint8_t length);

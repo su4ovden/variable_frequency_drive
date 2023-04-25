@@ -17,7 +17,7 @@ void adc1_init(void)
     GPIOA->MODER |= GPIO_MODER_MODE0_1 | GPIO_MODER_MODE0_0; // Analog mode on A0 pin
     ADC1->CR2 |= ADC_CR2_CONT; // Continious conversation mode
 
-    ADC1->SMPR2 |= ADC_SMPR2_SMP0_2 | ADC_SMPR2_SMP0_1 | ADC_SMPR2_SMP0_0; // Channel 0 144 sampling cycles*/
+    ADC1->SMPR2 |= ADC_SMPR2_SMP0_2 | ADC_SMPR2_SMP0_1 | ADC_SMPR2_SMP0_0; // Channel 0 144 sampling cycles
     
     ADC1->CR1 |= ADC_CR1_EOCIE; // Enable end of conversation interrupt
     NVIC_EnableIRQ(ADC_IRQn); // Enable ADC global interrupt in NVIC

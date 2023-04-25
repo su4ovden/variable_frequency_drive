@@ -42,14 +42,14 @@ static void display_gpio_init(void)
 {
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN; /* Enable clock for GPIOB */
 	
-	GPIOB->ODR |= GPIO_ODR_OD6 | GPIO_ODR_OD7;
-	GPIOB->MODER |= GPIO_MODER_MODE6_0 | GPIO_MODER_MODE7_0; /* General purpose output mode */
-	GPIOB->OTYPER |= GPIO_OTYPER_OT6 | GPIO_OTYPER_OT7; /* Open-drain */
-	GPIOB->PUPDR |= GPIO_PUPDR_PUPD6_0 | GPIO_PUPDR_PUPD7_0; /* Pulled up */
-	GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR6 | GPIO_OSPEEDER_OSPEEDR7;
+	GPIOB->ODR |= GPIO_ODR_OD8 | GPIO_ODR_OD9;
+	GPIOB->MODER |= GPIO_MODER_MODE8_0 | GPIO_MODER_MODE9_0; /* General purpose output mode */
+	GPIOB->OTYPER |= GPIO_OTYPER_OT8 | GPIO_OTYPER_OT9; /* Open-drain */
+	GPIOB->PUPDR |= GPIO_PUPDR_PUPD8_0 | GPIO_PUPDR_PUPD9_0; /* Pulled up */
+	GPIOB->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR8 | GPIO_OSPEEDER_OSPEEDR9;
 }
 
-static inline void clock_signal(uint8_t state)
+static void clock_signal(uint8_t state)
 {
 	/* 
 	Works incorrectly
@@ -66,7 +66,7 @@ static inline void clock_signal(uint8_t state)
 	}
 }
 
-static inline void data_signal(uint8_t state)
+static void data_signal(uint8_t state)
 {
 	/* 
 	Works incorrectly
@@ -83,13 +83,13 @@ static inline void data_signal(uint8_t state)
 	}
 }
 
-static inline void send_start(void)
+static void send_start(void)
 {
 	data_signal(0);
 	delay_us(BIT_PERIOD);
 }
 
-static inline void send_stop(void)
+static void send_stop(void)
 {
 	data_signal(0);
 	
@@ -102,7 +102,7 @@ static inline void send_stop(void)
 	data_signal(1);
 }
 
-static inline uint8_t is_ack(void)
+static uint8_t is_ack(void)
 {
 	uint8_t is_ack = 0;
 	
@@ -120,7 +120,7 @@ static inline uint8_t is_ack(void)
 	return is_ack;
 }
 
-static inline void send_byte(uint8_t byte)
+static void send_byte(uint8_t byte)
 {
 	for(uint8_t i = 0; i < 8; i++)
 	{
@@ -136,7 +136,7 @@ static inline void send_byte(uint8_t byte)
 	data_signal(1); /* Reset to idle state */
 }
 
-static inline void reset_state(void)
+static void reset_state(void)
 {
 	data_signal(1);
 	clock_signal(1);

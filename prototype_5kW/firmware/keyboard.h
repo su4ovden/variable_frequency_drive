@@ -2,10 +2,12 @@
 
 typedef enum 
 {
-	ON = (1 << 12),
-	OFF = (1 << 14)
+	ON = 1,
+	OFF = 2,
+	START = 4,
+	CLEAR = 8
 } buttons_t;
 
 void keyboard_gpio_init(void);
 void keyboard_handler(buttons_t buttons);
-buttons_t keyboard_get_buttons(void);
+uint16_t keyboard_get_buttons(void);

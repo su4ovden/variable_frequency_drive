@@ -4,7 +4,7 @@ void SysTick_Init(void);
 void delay_us(uint32_t delay);
 void delay_ms(uint32_t delay);
 
-static uint32_t CLK_PERIOD = 0;
+static uint8_t CLK_PERIOD = 0;
 
 void SysTick_Init(void)
 {
