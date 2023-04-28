@@ -18,6 +18,8 @@ void keyboard_gpio_init(void)
 	// GPIO ports mode set
 	GPIOC->MODER |= GPIO_MODER_MODE15_0 | GPIO_MODER_MODE14_0 | GPIO_MODER_MODE13_0; // Output
 	GPIOB->MODER &= ~(GPIO_MODER_MODE6 | GPIO_MODER_MODE5 | GPIO_MODER_MODE4); // Input
+	
+	GPIOC->ODR &= ~0xE000;
 }
 
 uint16_t keyboard_get_buttons(void)
@@ -26,9 +28,9 @@ uint16_t keyboard_get_buttons(void)
 	
 	for(uint8_t i = 0; i < 3; i++)
 	{
-		GPIOC->ODR &= ~0xE000;
 		GPIOC->ODR |= GPIO_ODR_OD15 >> i;
 		buttons |= ((GPIOB->IDR & 0x70) >> 4) << (i * 3);
+		GPIOC->ODR &= ~0xE000;
 	}
 	
 	return buttons;
