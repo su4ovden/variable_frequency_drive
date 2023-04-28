@@ -5,6 +5,7 @@
 #include "keyboard.h"
 #include "delay.h"
 #include "display.h"
+#include "pwm.h"
 
 void clock_init(void);
 
@@ -26,13 +27,20 @@ int main(void)
 	
 	keyboard_gpio_init();
 	display_init();
-	delay_us(100);
+	pwm_channels_init();
+	pwm_timer_init();
+	pwm_enable();
 	
 	display_print_string("lodc");
 	display_update();
 	display_clear();
 	
 	delay_ms(1000);
+	
+	display_set_brightness(1);
+	display_print_value_integer_decimal(value, 2);
+	display_print_char('f', 0);
+	display_update();
 	
 	while(1)
 	{
@@ -49,9 +57,11 @@ int main(void)
 			old_keyboard_buttons = keyboard_buttons;
 		}
 		
-		if(value > 999)
+		if(value > 998)
 		{
 			value = 0;
 		}
+		
+		//delay_us(1000);
 	}
 }
