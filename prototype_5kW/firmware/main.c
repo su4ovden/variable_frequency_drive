@@ -7,8 +7,6 @@
 #include "display.h"
 #include "pwm.h"
 
-void clock_init(void);
-
 uint16_t old_keyboard_buttons = 0;
 uint16_t keyboard_buttons = 0;
 uint16_t value = 0;
@@ -25,6 +23,8 @@ int main(void)
 	SystemCoreClockUpdate();
 	SysTick_Init();
 	
+	delay_ms(2000);
+	
 	keyboard_gpio_init();
 	display_init();
 	pwm_channels_init();
@@ -33,7 +33,6 @@ int main(void)
 	
 	display_print_string("lodc");
 	display_update();
-	display_clear();
 	
 	delay_ms(1000);
 	
@@ -57,7 +56,7 @@ int main(void)
 			old_keyboard_buttons = keyboard_buttons;
 		}
 		
-		if(value > 998)
+		if(value > 999)
 		{
 			value = 0;
 		}
