@@ -43,7 +43,7 @@ static const float sinewave_array[360] =
 	-0.121, -0.091, -0.060, -0.030 	
 };
 
-volatile uint16_t adc_value = 5;
+volatile uint16_t adc_value = 1500;
 volatile uint16_t phase_accumulator = 0;
 volatile uint16_t phase_a = 0;
 volatile uint16_t phase_b = 0;
@@ -55,10 +55,10 @@ void TIM1_UP_TIM10_IRQHandler(void)
     phase_b = ((phase_accumulator >> 7) + 120) % 360;
     phase_c = ((phase_accumulator >> 7) + 240) % 360;
 
-    TIM1->CCR1 = 180 + (sinewave_array[phase_a] * 180);
-    TIM1->CCR2 = 180 + (sinewave_array[phase_b] * 180);
-    TIM1->CCR3 = 180 + (sinewave_array[phase_c] * 180);
-
+    TIM1->CCR1 = 360 + ((sinewave_array[phase_a] * 360) * 0.8f);
+    TIM1->CCR2 = 360 + ((sinewave_array[phase_b] * 360) * 0.8f);
+    TIM1->CCR3 = 360 + ((sinewave_array[phase_c] * 360) * 0.8f);
+	
     phase_accumulator += adc_value;
 	if((phase_accumulator >> 7) > 359) phase_accumulator %= (360 << 7);
 
@@ -70,29 +70,28 @@ void pwm_timer_init(void)
     RCC->APB2ENR |= RCC_APB2ENR_TIM1EN; // Enable clock to Timer 1
 
     TIM1->CR1 |= TIM_CR1_ARPE; // ARR preload enable
-    //TIM1->CR1 |= TIM_CR1_CMS_0; // Center-aligment mode, interrupt flag is set both when the counter is counting up or down
+    TIM1->CR1 |= TIM_CR1_CMS_0; // Center-aligment mode, interrupt flag is set both when the counter is counting up or down
 	
 	// Set idle state to 1
 	TIM1->CR2 |= TIM_CR2_OIS1 | TIM_CR2_OIS1N | TIM_CR2_OIS2 | TIM_CR2_OIS2N | TIM_CR2_OIS2 | TIM_CR2_OIS3N; 
 	
-	// Set PWM mode 2 and enable preload
-    TIM1->CCMR1 |= TIM_CCMR1_OC1M | TIM_CCMR1_OC1PE;
-    TIM1->CCMR1 |= TIM_CCMR1_OC2M | TIM_CCMR1_OC2PE;
-    TIM1->CCMR2 |= TIM_CCMR2_OC3M | TIM_CCMR2_OC3PE;
+	// Set PWM mode 1 and enable CCRx registers preload
+    TIM1->CCMR1 |= TIM_CCMR1_OC1M_2 | TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1PE;
+    TIM1->CCMR1 |= TIM_CCMR1_OC2M_2 | TIM_CCMR1_OC2M_1 | TIM_CCMR1_OC2PE;
+    TIM1->CCMR2 |= TIM_CCMR2_OC3M_2 | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC3PE;
 
-	// Set "Active high" mode
-    TIM1->CCER &= ~(TIM_CCER_CC1NP | TIM_CCER_CC1P);
-    TIM1->CCER &= ~(TIM_CCER_CC2NP | TIM_CCER_CC2P);
-    TIM1->CCER &= ~(TIM_CCER_CC3NP | TIM_CCER_CC3P);
-
-	// Enable output compare
-    TIM1->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E; // OC1, OC2, OC3 enable
+	// Set output compare channels polarity
+	TIM1->CCER |= TIM_CCER_CC1P | TIM_CCER_CC2P | TIM_CCER_CC3P; // OC1, OC2, OC3 active low
+	TIM1->CCER |= TIM_CCER_CC1NP | TIM_CCER_CC2NP | TIM_CCER_CC3NP; // OC1N, OC2N, OC3N active low
+	
+	// Enable output compare channels
+	TIM1->CCER |= TIM_CCER_CC1E | TIM_CCER_CC2E | TIM_CCER_CC3E; // OC1, OC2, OC3 enable
     TIM1->CCER |= TIM_CCER_CC1NE | TIM_CCER_CC2NE | TIM_CCER_CC3NE; // OC1N, OC2N, OC3N enable
     
-	TIM1->BDTR |= 150; // Dead-time 3.5 uS
+	TIM1->BDTR |= 185; // Dead-time 3.0 uS
 	
-    TIM1->PSC = 71;
-    TIM1->ARR = 359;
+	TIM1->PSC = 35;
+    TIM1->ARR = 719;
 
     TIM1->EGR |= TIM_EGR_COMG; // Update generation
     
@@ -129,6 +128,6 @@ void pwm_enable(void)
 
 void pwm_disable(void)
 {
-    TIM1->BDTR &= ~TIM_BDTR_MOE; // Main output enable
+    TIM1->BDTR &= ~TIM_BDTR_MOE; // Main output dinable
     TIM1->CR1 &= ~TIM_CR1_CEN; // Disable timer
 }
