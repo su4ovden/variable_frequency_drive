@@ -34,7 +34,7 @@ void clock_init(void)
 
 	// Set value for PLL coefficients
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLM & (25 << RCC_PLLCFGR_PLLM_Pos); // M coifficient
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN & (328 << RCC_PLLCFGR_PLLN_Pos); // N coifficient
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN & (336 << RCC_PLLCFGR_PLLN_Pos); // N coifficient
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLP_0; // P coifficient division by 4
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLQ & (8 << RCC_PLLCFGR_PLLQ_Pos);  // Q coifficient
 
