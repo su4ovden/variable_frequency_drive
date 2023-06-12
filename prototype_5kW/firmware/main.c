@@ -6,11 +6,15 @@
 #include "delay.h"
 #include "display.h"
 #include "pwm.h"
+#include "periphery.h"
+#include "analog.h"
 
 uint16_t old_keyboard_buttons = 0;
 uint16_t keyboard_buttons = 0;
 uint16_t value = 0;
+uint16_t frequency = 0;
 
+uint8_t state = 0;
 int main(void)
 {
 	// System initialization
@@ -23,8 +27,11 @@ int main(void)
 	SystemCoreClockUpdate();
 	SysTick_Init();
 	
-	delay_ms(2000);
+	delay_ms(1000);
 	
+	adc1_init();
+	relay_gpio_init();
+	fan_gpio_init();
 	keyboard_gpio_init();
 	display_init();
 	pwm_channels_init();
@@ -34,9 +41,11 @@ int main(void)
 	display_print_string("lodc");
 	display_update();
 	
-	delay_ms(1000);
+	delay_ms(2000);
+	relay_set_state(1);
+	//fan_set_state(1);
 	
-	display_set_brightness(1);
+	display_set_brightness(3);
 	display_print_value_integer_decimal(value, 2);
 	display_print_char('f', 0);
 	display_update();
@@ -61,6 +70,9 @@ int main(void)
 			value = 0;
 		}
 		
-		//delay_us(1000);
+		frequency = (50000 * (adc_raw_data[4] / 4095.0f)) / 100;
+		display_print_value_integer_decimal(frequency, 2);
+		display_update();
+		delay_ms(33);
 	}
 }
