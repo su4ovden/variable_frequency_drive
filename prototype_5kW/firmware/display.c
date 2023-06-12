@@ -262,7 +262,7 @@ void display_print_value_integer_decimal(uint16_t value, uint8_t dot_position)
 {
 	for(int8_t i = 3; i >= 0; i--)
 	{
-		if(value > 0 || (i >= dot_position))
+		if(value > 0 || (i >= (4 - dot_position)))
 		{
 			display_data[i] = get_symbol(value % 10);
 		}
