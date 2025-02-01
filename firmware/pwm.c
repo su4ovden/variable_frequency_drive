@@ -3,8 +3,8 @@
 #include "control.h"
 
 #define PWM_MODULATION_FREQ_NOMINAL 50.00f
-#define PWM_MODULATION_COEF_MIN 0.2f
-#define PWM_MODULATION_COEF_MAX 1.1f
+#define PWM_MODULATION_COEF_MIN 0.15f
+#define PWM_MODULATION_COEF_MAX 1.05f
 
 static const float sinewave_array[360] = 
 { 
@@ -119,7 +119,7 @@ void pwm_timer_init(void)
     
 	TIM1->BDTR |= 185; // dead-time 3.0 uS
 	
-	TIM1->PSC = 22; // 35 - 1620 Hz > 22 - 2540 Hz
+	TIM1->PSC = 15; // 22 - 2540 Hz
   TIM1->ARR = 719;
 
   TIM1->EGR |= TIM_EGR_COMG; // update generation
